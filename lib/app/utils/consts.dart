@@ -9,6 +9,12 @@ const String kLogOut = 'logout';
 const String kProfile = 'profile';
 const String kUpdateProfile = 'update-profile';
 const String kChangePassword = 'change-password';
+const String kCategories = 'categories';
+const String kCatProducts= 'categories';
+const String kProductDetails = 'products';
+const String kHome = 'home';
+const String kGetCart = 'carts';
+const String kAddOrRemoveCart = 'carts';
 
 //Static Headers
  Map<String, String> apiHeaders = {

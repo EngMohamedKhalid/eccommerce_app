@@ -19,7 +19,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
         CarouselSlider(
             items: widget.items,
             options: CarouselOptions(
-              height: 160.h,
+              height: 190.h,
               aspectRatio: 16/9,
               viewportFraction: 1,
               initialPage: 0,

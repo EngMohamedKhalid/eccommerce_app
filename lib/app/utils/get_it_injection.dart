@@ -5,11 +5,26 @@ import 'package:eccommerce_app/features/auth_feature/domain/usecases/log_out_use
 import 'package:eccommerce_app/features/auth_feature/domain/usecases/login_use_case.dart';
 import 'package:eccommerce_app/features/auth_feature/domain/usecases/register_use_case.dart';
 import 'package:eccommerce_app/features/auth_feature/domain/usecases/update_profile_use_case.dart';
+import 'package:eccommerce_app/features/cart_feature/domain/use_cases/add_or_delete_cart_use_case.dart';
+import 'package:eccommerce_app/features/cart_feature/domain/use_cases/get_all_cart_use_case.dart';
+import 'package:eccommerce_app/features/categories_feature/data/repo_impl/categories_repo_impl.dart';
+import 'package:eccommerce_app/features/categories_feature/domain/repo/categories_repo.dart';
+import 'package:eccommerce_app/features/categories_feature/domain/use_cases/get_category_products.dart';
+import 'package:eccommerce_app/features/categories_feature/domain/use_cases/get_product_details_use_case.dart';
+import 'package:eccommerce_app/features/home_feature/data/data_source/home_remote_data_source.dart';
+import 'package:eccommerce_app/features/home_feature/data/repo_impl/home_repo_impl.dart';
+import 'package:eccommerce_app/features/home_feature/domain/use_cases/get_home_use_case.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/auth_feature/data/data_source/auth_remote_data_source.dart';
 import '../../features/auth_feature/data/repo_impl/auth_repo_impl.dart';
 import '../../features/auth_feature/domain/repo/auth_repo.dart';
+import '../../features/cart_feature/data/data_source/cart_remote_data_source.dart';
+import '../../features/cart_feature/data/repo_impl/cart_repo_impl.dart';
+import '../../features/cart_feature/domain/repo/cart_repo.dart';
+import '../../features/categories_feature/data/data_sources/categories_remote_data_source.dart';
+import '../../features/categories_feature/domain/use_cases/get_all_categories_use_case.dart';
+import '../../features/home_feature/domain/repo/home_repo.dart';
 import '../network/network_info.dart';
 import '../network/network_manager.dart';
 import '../services/cache_service.dart';
@@ -20,11 +35,12 @@ final getIt = GetIt.instance;
 Future<void> init() async {
   // data sources
    getIt.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImp(networkManager: getIt()),);
-  // getIt.registerLazySingleton<CategoriesRemoteDataSource>(() => CategoriesRemoteDataSourceImpl(networkManager: getIt()),);
+   getIt.registerLazySingleton<CategoriesRemoteDataSource>(() => CategoriesRemoteDataSourceImpl(networkManager: getIt()),);
+   getIt.registerLazySingleton<HomeRemoteDataSource>(() => HomeRemoteDataSourceImpl(networkManager: getIt()),);
   // getIt.registerLazySingleton<SearchRemoteDataSource>(() => SearchRemoteDataSourceImpl(networkManager: getIt()),);
   // getIt.registerLazySingleton<AccountRemoteDataSource>(() => AccountRemoteDataSourceImpl(networkManager: getIt()),);
   // getIt.registerLazySingleton<HomeRemoteDataSource>(() => HomeRemoteDataSourceImpl(networkManager: getIt()),);
-  // getIt.registerLazySingleton<CartRemoteDataSource>(() => CartRemoteDataSourceImpl(networkManager: getIt()),);
+  getIt.registerLazySingleton<CartRemoteDataSource>(() => CartRemoteDataSourceImpl(networkManager: getIt()),);
   // getIt.registerLazySingleton<FavouriteRemoteDataSource>(() => FavouriteRemoteDataSourceImpl(networkManager: getIt()),);
   // getIt.registerLazySingleton<OrderRemoteDataSource>(() => OrderRemoteDataSourceImpl(networkManager: getIt()),);
   // getIt.registerLazySingleton<AddressesRemoteDataSource>(() => AddressesRemoteDataSourceImpl(networkManager: getIt()),);
@@ -32,11 +48,12 @@ Future<void> init() async {
 
   //* Repository
   getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(authRemoteDataSource: getIt(), networkInfo: getIt()),);
-  // getIt.registerLazySingleton<CategoriesRepo>(() => CategoriesRepoImpl(categoriesRemoteDataSource: getIt(), networkInfo: getIt(),),);
+  getIt.registerLazySingleton<CategoriesRepo>(() => CategoriesRepoImpl(categoriesRemoteDataSource: getIt(), networkInfo: getIt()),);
+   getIt.registerLazySingleton<HomeRepo>(() => HomeRepoImpl(homeRemoteDataSource: getIt(), networkInfo: getIt(),),);
   // getIt.registerLazySingleton<SearchRepo>(() => SearchRepoImpl(searchRemoteDataSource: getIt(), networkInfo: getIt()),);
   // getIt.registerLazySingleton<AccountRepo>(() => AccountRepoImpl(accountRemoteDataSource: getIt(), networkInfo: getIt()),);
   // getIt.registerLazySingleton<HomeRepo>(() => HomeRepoImpl( networkInfo: getIt(), homeRemoteDataSource: getIt()),);
-  // getIt.registerLazySingleton<CartRepo>(() => CartRepoImpl( networkInfo: getIt(), cartRemoteDataSource: getIt()),);
+  getIt.registerLazySingleton<CartRepo>(() => CartRepoImpl( networkInfo: getIt(), cartRemoteDataSource: getIt()),);
   // getIt.registerLazySingleton<FavouriteRepo>(() => FavouriteRepoImpl( networkInfo: getIt(), favouriteRemoteDataSource: getIt()),);
   // getIt.registerLazySingleton<OrderRepo>(() => OrderRepoImpl( networkInfo: getIt(), orderRemoteDataSource: getIt()),);
   // getIt.registerLazySingleton<AddressesRepo>(() => AddressesRepoImpl( networkInfo: getIt(), addressesRemoteDataSource: getIt()),);
@@ -75,9 +92,15 @@ void _authUseCases() {
   getIt.registerLazySingleton<LogOutUseCase>(() => LogOutUseCase(authRepo: getIt()));
   getIt.registerLazySingleton<UpdateProfileUseCase>(() => UpdateProfileUseCase(authRepo: getIt()));
 }
+
+void _homeUseCase(){
+  getIt.registerLazySingleton<GetHomeDataUseCase>(() => GetHomeDataUseCase(repository: getIt()));
+}
+
+
 void _cartUseCases() {
-  // getIt.registerLazySingleton<AddItemToCartUseCase>(() => AddItemToCartUseCase(repository: getIt()));
-  // getIt.registerLazySingleton<GetAllCartItemsUseCase>(() => GetAllCartItemsUseCase(repository: getIt()));
+  getIt.registerLazySingleton<AddOrDeleteCartUseCase>(() => AddOrDeleteCartUseCase(cartRepo: getIt()));
+   getIt.registerLazySingleton<GetAllCartUseCase>(() => GetAllCartUseCase(cartRepo: getIt()));
   // getIt.registerLazySingleton<UpdateQuantityUseCase>(() => UpdateQuantityUseCase(repository: getIt()));
   // getIt.registerLazySingleton<RemoveItemFromCartUseCase>(() => RemoveItemFromCartUseCase(repository: getIt()));
   // getIt.registerLazySingleton<SaveItemForLaterUseCase>(() => SaveItemForLaterUseCase(repository: getIt()));
@@ -100,15 +123,13 @@ void _accountUseCases() {
   // getIt.registerLazySingleton<UpdateProfileUseCase>(() => UpdateProfileUseCase(repository: getIt()));
   // getIt.registerLazySingleton<ContactUsUseCase>(() => ContactUsUseCase(repository: getIt()));
 }
-
-void _homeUseCase(){
-  //getIt.registerLazySingleton<GetHomeDataUseCase>(() => GetHomeDataUseCase(repository: getIt()));
-}
 void _searchUseCase(){
  // getIt.registerLazySingleton<SearchProductsUseCase>(() => SearchProductsUseCase(repository: getIt()));
 }
 void _categoriesCase(){
-  // getIt.registerLazySingleton<GetAllCategoriesUseCase>(() => GetAllCategoriesUseCase(repository: getIt()));
+  getIt.registerLazySingleton<GetAllCategoriesUseCase>(() => GetAllCategoriesUseCase(repository: getIt()));
+  getIt.registerLazySingleton<GetAllCategoryProductsUseCase>(() => GetAllCategoryProductsUseCase(repository: getIt()));
+  getIt.registerLazySingleton<GetProductDetailsUseCase>(() => GetProductDetailsUseCase(repository: getIt()));
   // getIt.registerLazySingleton<GetAllBestSellingUseCase>(() => GetAllBestSellingUseCase(repository: getIt()));
   // getIt.registerLazySingleton<GetAllBestOffersUseCase>(() => GetAllBestOffersUseCase(repository: getIt()));
   // getIt.registerLazySingleton<GetAllNewCollectionsUseCase>(() => GetAllNewCollectionsUseCase(repository: getIt()));

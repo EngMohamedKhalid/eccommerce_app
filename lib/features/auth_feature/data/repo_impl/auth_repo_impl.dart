@@ -27,8 +27,8 @@ class AuthRepoImpl extends AuthRepo{
   }
 
   @override
-  Future<Either<Failure, UserModel>> changePassword(Map<String, dynamic> map)async {
-    return await RepoImplCallHandler<UserModel>(networkInfo)(() async {
+  Future<Either<Failure, String>> changePassword(Map<String, dynamic> map)async {
+    return await RepoImplCallHandler<String>(networkInfo)(() async {
       final result = await authRemoteDataSource.changePassword(map);
       return result;
     });

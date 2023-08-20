@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eccommerce_app/features/auth_feature/presentation/screens/auth_screen.dart';
+import 'package:eccommerce_app/features/bottom_navigation_feature/presentation/screens/bottom_navigation_screen.dart';
 import 'package:eccommerce_app/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,7 @@ import '../../../../app/widgets/default_app_bar_widget.dart';
 import '../../../../app/widgets/image_widget.dart';
 import '../../../../app/widgets/text_button_widget.dart';
 import '../../../../app/widgets/text_widget.dart';
+import '../../../home_feature/presentation/screens/home_screen.dart';
 import '../../data/models/onboard_model.dart';
 import '../widgets/custom_body.dart';
 import 'choose_lang_screen.dart';
@@ -38,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
      if(getIt<CacheService>().getOnBoarding()!=null){
        if(getIt<CacheService>().getUserData() != null ){
           // todo add Home Screen here
-         widget = const HomeScreen();
+         widget = const BNBScreen();
        }else{
          widget = const AuthScreen();
        }

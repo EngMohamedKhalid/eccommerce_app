@@ -4,12 +4,12 @@ import 'package:eccommerce_app/app/usecase/usecase.dart';
 import 'package:eccommerce_app/features/auth_feature/data/model/user_model.dart';
 import 'package:eccommerce_app/features/auth_feature/domain/repo/auth_repo.dart';
 
-class ChangePasswordUseCase implements UseCase<UserModel , ChangePasswordUseCaseParams >{
+class ChangePasswordUseCase implements UseCase<String , ChangePasswordUseCaseParams >{
   final AuthRepo authRepo ;
 
   ChangePasswordUseCase({required this.authRepo});
   @override
-  Future<Either<Failure, UserModel>> call(ChangePasswordUseCaseParams params) {
+  Future<Either<Failure, String>> call(ChangePasswordUseCaseParams params) {
    return authRepo.changePassword(params.toMap());
   }
 

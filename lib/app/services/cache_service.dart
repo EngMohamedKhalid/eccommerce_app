@@ -13,7 +13,7 @@ class CacheService {
 
 
   Future<bool> setUserToken({required String token}) async {
-    return _prefs.setString(userToken, "Bearer $token");
+    return _prefs.setString(userToken, token);
   }
   String? getUserToken(){
     final String? token = _prefs.getString(userToken);

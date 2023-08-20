@@ -1,10 +1,11 @@
+import 'package:eccommerce_app/app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 Future<bool?> showToast({
   required String msg,
-  required Color backgroundColor,
-  required Color textColor,
+  Color backgroundColor= AppColors.mainColor,
+  Color textColor= AppColors.white,
 }){
   return Fluttertoast.showToast(
       msg: msg,

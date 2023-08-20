@@ -10,7 +10,7 @@ abstract class AuthRemoteDataSource {
   Future<String> logout();
   Future<UserModel> getProfile();
   Future<UserModel> updateProfile(Map<String, dynamic> map);
-  Future<UserModel> changePassword(Map<String, dynamic> map);
+  Future<String> changePassword(Map<String, dynamic> map);
 }
 
 class AuthRemoteDataSourceImp implements AuthRemoteDataSource{
@@ -28,13 +28,13 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource{
   }
 
   @override
-  Future<UserModel> changePassword(Map<String, dynamic> map)async {
+  Future<String> changePassword(Map<String, dynamic> map)async {
     final res =  await networkManager.requestWithFormData(
         endPoint: kChangePassword,
         body:  map
     );
     final data =  await RemoteDataSourceCallHandler().handleFormData(res);
-    return UserModel.fromMap(data.data);
+    return data.msg??"";
   }
 
   @override
@@ -50,7 +50,7 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource{
   Future<String> logout() async {
     final res = await networkManager.requestWithFormData(
       endPoint: kLogOut,
-      method: RequestMethod.delete,
+      method: RequestMethod.post,
     );
     final data =  await RemoteDataSourceCallHandler().handleFormData(res);
     return data.msg??"";

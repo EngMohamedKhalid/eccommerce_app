@@ -9,5 +9,5 @@ abstract class AuthRepo{
   Future<Either<Failure, String>>logout();
   Future<Either<Failure, UserModel>>getProfile();
   Future<Either<Failure, UserModel>>updateProfile(Map<String,dynamic> map);
-  Future<Either<Failure, UserModel>>changePassword(Map<String,dynamic> map);
+  Future<Either<Failure, String>>changePassword(Map<String,dynamic> map);
 }
