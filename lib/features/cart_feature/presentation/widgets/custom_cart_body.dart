@@ -9,7 +9,7 @@ import '../../../../app/widgets/custom_alert_dialog.dart';
 import '../../../../app/widgets/loading.dart';
 import '../../../../app/widgets/text_widget.dart';
 import '../presentation_logic_holder/cart_cubit.dart';
-import '../widgets/custom_cart_item.dart';
+import 'custom_cart_item.dart';
 
 class CustomCartBody extends StatefulWidget {
   const CustomCartBody({super.key});
@@ -29,7 +29,7 @@ class _CustomCartBodyState extends State<CustomCartBody> {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
         var cubit = CartCubit.get();
-        return state is CartLoading?Loading():
+        return state is CartLoading? const Loading():
         Column(
           children: [
             Expanded(
@@ -47,7 +47,9 @@ class _CustomCartBodyState extends State<CustomCartBody> {
                         buttonText: "No".tr(),
                         canCancel: true,
                         onOk: () {
-                          //cubit.removeCartItem(cubit.cartItems!.carItems[index].id.toString());
+                          cubit.addOrRemoveCart(
+                              id:cubit.getAllCartModel?.carts[index].productDetails?.id?.toInt()??0,
+                          );
                           Navigator.pop(context);
                         },
                         onCancel: () {
@@ -68,10 +70,14 @@ class _CustomCartBodyState extends State<CustomCartBody> {
                       //       cubit.cartItems!.carItems[index].id.toString());
                       // }
                       },
-                    saveOnPressed: () {
-                    //   cubit.saveCartItemForLater(
-                    //     cubit.cartItems!.carItems[index].id.toString()
-                    // );
+                    saveOnPressed: ()async {
+                      await cubit.addToFavourite(id: cubit.getAllCartModel?.carts[index].productDetails?.id?.toInt()??0);
+                      // await cubit.addOrRemoveFavourite(
+                      //     id: cubit.getAllCartModel?.carts[index].productDetails?.id?.toInt()??0
+                      // );
+                      // await CartCubit.get().addOrRemoveCart(
+                      //     id: cubit.getAllCartModel?.carts[index].productDetails?.id?.toInt()??0
+                      // );
                       },
                     //countNum:
                     //cubit.cartItems?.carItems[index].quantity?.toInt()??0,
@@ -85,24 +91,37 @@ class _CustomCartBodyState extends State<CustomCartBody> {
                 },
               )
             ),
-            Divider(color: const Color(0xFFE0E0E0),),
-            16.verticalSpace,
-            TextWidget(
-              title:"",
-              //"${"Sub-Total".tr()} (${cubit.cartItems?.carItems.length??0} Items): ${cubit.cartItems?.totalPrice??"0"} EGP",
-              fontFamily: AppFonts.semiBold,
-              titleSize: 16.sp,
-              titleColor: AppColors.black3333,
-            ),
-            16.verticalSpace,
             Padding(
-              padding:const EdgeInsets.symmetric(horizontal: 16),
-              child: ButtonWidget(
-                //loading: state is CheckOutLoading,
-                onPressed: () {
-                 // cubit.checkOut();
-                },
-                text: "ProceedBuy".tr(),
+              padding:const EdgeInsets.symmetric(horizontal: 16,vertical: 12),
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                     const TextWidget(
+                          title: "Total Price",
+                        titleColor: AppColors.gery455,
+                        titleFontWeight: FontWeight.w600,
+                      ),
+                      5.verticalSpace,
+                      TextWidget(
+                          title: "${cubit.getAllCartModel?.total.toString()??"0"} EGP",
+                        titleColor: AppColors.mainColor,
+                        titleFontWeight: FontWeight.w600,
+                      ),
+                    ],
+                  ),
+                  16.horizontalSpace,
+                  Expanded(
+                    child: ButtonWidget(
+                      //loading: state is CheckOutLoading,
+                      onPressed: () {
+                       // cubit.checkOut();
+                      },
+                      text: "ProceedBuy".tr(),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

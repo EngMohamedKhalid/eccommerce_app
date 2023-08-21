@@ -1,4 +1,5 @@
-import 'package:eccommerce_app/features/cart_feature/data/models/add_or_delete_cart_model.dart';
+
+import 'add_or_delete_cart_model.dart';
 
 class GetAllCartModel{
   num ? subTotal;

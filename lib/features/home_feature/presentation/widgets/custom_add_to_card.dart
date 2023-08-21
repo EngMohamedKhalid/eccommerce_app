@@ -3,15 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../app/utils/app_assets.dart';
 import '../../../../app/utils/app_colors.dart';
+import '../../../../app/widgets/flutter_toast.dart';
 import '../../../../app/widgets/image_widget.dart';
 import '../../../../app/widgets/loading.dart';
 import '../../../cart_feature/presentation/presentation_logic_holder/cart_cubit.dart';
 
 class CustomAddToCard extends StatefulWidget {
-  const CustomAddToCard({super.key, this.size, required this.id});
+  const CustomAddToCard({super.key, this.size, required this.id, });
   final double? size;
   final int id;
-
   @override
   State<CustomAddToCard> createState() => _CustomAddToCardState();
 }
@@ -34,7 +34,11 @@ class _CustomAddToCardState extends State<CustomAddToCard> {
           setState(() {
             isLoading =true;
           });
-         await CartCubit.get().addOrRemoveCart(id: widget.id);
+         await CartCubit.get().addOrRemoveCart(
+             id: widget.id,
+         ).then((value) {
+           showToast(msg: "Added Successfully To Cart",);
+         });
           setState(() {
             isLoading =false;
           });

@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          body:state is LoadingState?
+          body:state is HomeLoading?
          const  Loading():
           SingleChildScrollView(
             physics: const BouncingScrollPhysics(),

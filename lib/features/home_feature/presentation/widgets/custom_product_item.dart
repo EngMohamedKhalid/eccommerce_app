@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../app/utils/app_colors.dart';
 import '../../../../app/utils/app_fonts.dart';
+import '../../../../app/widgets/flutter_toast.dart';
 import '../../../../app/widgets/image_widget.dart';
 import '../../../../app/widgets/text_widget.dart';
+import '../../../cart_feature/presentation/presentation_logic_holder/cart_cubit.dart';
 import 'custom_add_to_card.dart';
 
 class CustomProductItemDetails extends StatelessWidget {
@@ -49,7 +51,7 @@ class CustomProductItemDetails extends StatelessWidget {
                     16.verticalSpace,
                     Row(
                       children: [
-                        Column(
+                    Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
@@ -73,10 +75,25 @@ class CustomProductItemDetails extends StatelessWidget {
                           ],
                         ),
                         const Spacer(),
+                        IconButton(
+                          onPressed: ()async {
+                            await CartCubit.get().addOrRemoveFavourite(
+                              id: productDetails.id!.toInt(),
+                            ).then((value) {
+                              showToast(msg: "Added To Favourites Successfully",);
+                            });
+                          },
+                          icon: Icon(
+                            Icons.favorite_border,
+                            color: AppColors.gery455,
+                            size: 30.sp,
+                          ),
+                        ),
                         CustomAddToCard(
                           id: productDetails.id!.toInt(),
                           size: 40.w,
                         ),
+
                       ],
                     ),
                   ],

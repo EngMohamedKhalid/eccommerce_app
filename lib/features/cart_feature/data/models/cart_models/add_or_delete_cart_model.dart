@@ -1,4 +1,4 @@
-import '../../../categories_feature/data/models/product_details.dart';
+import '../../../../categories_feature/data/models/product_details.dart';
 
 class AddOrDeleteToCartModel{
   num? id;

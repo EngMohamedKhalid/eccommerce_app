@@ -5,8 +5,10 @@ import 'package:eccommerce_app/features/auth_feature/domain/usecases/log_out_use
 import 'package:eccommerce_app/features/auth_feature/domain/usecases/login_use_case.dart';
 import 'package:eccommerce_app/features/auth_feature/domain/usecases/register_use_case.dart';
 import 'package:eccommerce_app/features/auth_feature/domain/usecases/update_profile_use_case.dart';
-import 'package:eccommerce_app/features/cart_feature/domain/use_cases/add_or_delete_cart_use_case.dart';
-import 'package:eccommerce_app/features/cart_feature/domain/use_cases/get_all_cart_use_case.dart';
+import 'package:eccommerce_app/features/cart_feature/domain/use_cases/cart_use_cases/add_or_delete_cart_use_case.dart';
+import 'package:eccommerce_app/features/cart_feature/domain/use_cases/cart_use_cases/get_all_cart_use_case.dart';
+import 'package:eccommerce_app/features/cart_feature/domain/use_cases/favourite_use_cases/add_or_delete_favourire_use_case.dart';
+import 'package:eccommerce_app/features/cart_feature/domain/use_cases/favourite_use_cases/get_all_favourite_use_case.dart';
 import 'package:eccommerce_app/features/categories_feature/data/repo_impl/categories_repo_impl.dart';
 import 'package:eccommerce_app/features/categories_feature/domain/repo/categories_repo.dart';
 import 'package:eccommerce_app/features/categories_feature/domain/use_cases/get_category_products.dart';
@@ -100,7 +102,9 @@ void _homeUseCase(){
 
 void _cartUseCases() {
   getIt.registerLazySingleton<AddOrDeleteCartUseCase>(() => AddOrDeleteCartUseCase(cartRepo: getIt()));
+  getIt.registerLazySingleton<AddOrDeleteFavouriteUseCase>(() => AddOrDeleteFavouriteUseCase(cartRepo: getIt()));
    getIt.registerLazySingleton<GetAllCartUseCase>(() => GetAllCartUseCase(cartRepo: getIt()));
+   getIt.registerLazySingleton<GetAllFavouriteUseCase>(() => GetAllFavouriteUseCase(cartRepo: getIt()));
   // getIt.registerLazySingleton<UpdateQuantityUseCase>(() => UpdateQuantityUseCase(repository: getIt()));
   // getIt.registerLazySingleton<RemoveItemFromCartUseCase>(() => RemoveItemFromCartUseCase(repository: getIt()));
   // getIt.registerLazySingleton<SaveItemForLaterUseCase>(() => SaveItemForLaterUseCase(repository: getIt()));

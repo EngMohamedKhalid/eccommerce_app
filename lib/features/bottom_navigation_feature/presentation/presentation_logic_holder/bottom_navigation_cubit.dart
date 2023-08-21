@@ -1,6 +1,7 @@
 
 
-import 'package:eccommerce_app/features/cart_feature/presentation/screens/custom_cart_body.dart';
+import 'package:eccommerce_app/features/cart_feature/presentation/screens/cart_screen.dart';
+import 'package:eccommerce_app/features/cart_feature/presentation/widgets/custom_cart_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +17,7 @@ class BottomNavigationCubit extends Cubit<BottomNavigationStats> {
   List<Widget> screens =const  [
      HomeScreen(),
     CategoriesScreen(),
-    CustomCartBody()
+    CartScreen()
     // CartScreen(),
     // ProfileScreen()
   ];

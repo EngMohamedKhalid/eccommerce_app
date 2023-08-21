@@ -15,6 +15,7 @@ const String kProductDetails = 'products';
 const String kHome = 'home';
 const String kGetCart = 'carts';
 const String kAddOrRemoveCart = 'carts';
+const String kFavourites = 'favorites';
 
 //Static Headers
  Map<String, String> apiHeaders = {

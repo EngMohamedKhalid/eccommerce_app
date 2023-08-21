@@ -269,7 +269,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
             ),
             onPressed: () {
-              CartCubit.get().addOrRemoveCart(id: CategoriesCubit.get().productDetails?.id?.toInt()??0);
+              CartCubit.get().addOrRemoveCart(
+                  id: CategoriesCubit.get().productDetails?.id?.toInt()??0,
+              );
             },
             icon: const Icon(
               Icons.add,
